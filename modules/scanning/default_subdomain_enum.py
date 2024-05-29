@@ -41,7 +41,7 @@ def subdomain_enum(site, wordlist_path):
 
     return valid_subdomain
 
-def main():
+def subdomain_enumeration():
     # десериализация из json
     with open('target.json', 'r') as file:
         data = json.load(file)
@@ -56,5 +56,4 @@ def main():
     with open('target_chain_1.json', 'w') as file:
         json.dump(data, file, indent=4)
         
-
-main()
+subdomain_enumeration()

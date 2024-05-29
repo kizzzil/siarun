@@ -13,24 +13,26 @@ def subdomain_enum(site, wordlist_path):
                 list_subdomain_prefix[i_prefix] = list_subdomain_prefix[i_prefix][:-1:]
 
     for prefix in list_subdomain_prefix:
-        http_err = False 
-        https_err = False 
+        http_err = True 
+        https_err = True 
 
         # попытка подключения по http
-        try:
-            print(f"connect to http://{prefix}.{site}")
-            response_http = requests.get(f"http://{prefix}.{site}")
-        except (HTTPError, ConnectionError, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
-            print('HTTP ERROR')
-            http_err = True
+        # try:
+        #     print(f"connect to http://{prefix}.{site}")
+        #     requests.get(f"http://{prefix}.{site}")
+        #     http_err = False
+        # except (HTTPError, ConnectionError, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
+        #     print('HTTP ERROR')
+            
 
         # попытка подключения по https
         try:
             print(f"connect to https://{prefix}.{site}")
-            response_https = requests.get(f"http://{prefix}.{site}")
+            requests.get(f"http://{prefix}.{site}")
+            https_err = False
         except (HTTPError, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
             print('HTTPs ERROR')
-            https_err = True
+            
             
         if not(http_err):
             valid_subdomain.append(f"http://{prefix}.{site}")
@@ -49,9 +51,9 @@ def main():
                                      data['settings']['subdomain_wordlist'])
     data['subdomains'] = valid_subdomain
 
-    # valid_subdomain.append(data['target'])
+    valid_subdomain.append(f"https://{data['target']}")
     # сериализация в json
-    with open('target.json', 'w') as file:
+    with open('target_chain_1.json', 'w') as file:
         json.dump(data, file, indent=4)
         
 

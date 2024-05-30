@@ -26,19 +26,19 @@ def port_scan():
 
         ports_path = nm_data['scan'][list(nm_data['scan'].keys())[0]]['tcp']
 
-        ports_info = []
+        ports_info = set()
 
         for port in ports_path.keys():
             product = ports_path[port]['product']
             version = ports_path[port]['version']
             if product != "" and version != "":
-                ports_info.append(f"{product} {version}")
+                ports_info.add((product, version))
         
-        data['subdomains'][url]['ports_info'] = ports_info
+        data['subdomains'][url]['ports_info'] = list(ports_info)
 
     with open(f"target_chain_3.json", 'w') as f:
         json.dump(data, f, indent=4)
         
-port_scan()
+# port_scan()
 
         

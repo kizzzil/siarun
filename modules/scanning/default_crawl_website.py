@@ -35,7 +35,9 @@ def crawl(site, html_regexes, url_regexes):
 
         if progr_info_in_body:
             for info in progr_info_in_body:
-                result.add(info)
+                ## ПОКА ЗАХАРДКОДИЛ
+                lst = info.split()
+                result.add((lst[0], lst[1]))
 
         progr_info_in_url = find_program_info(current_page, url_regexes)
 
@@ -44,16 +46,16 @@ def crawl(site, html_regexes, url_regexes):
                 ## ПОКА ЗАХАРДКОДИЛ
                 if 'wp-content/plugins/' in info:
                     size = len('wp-content/plugins/')
-                    info = "WP plugin " + info[size::]
+                    info = info[size::]
                 elif 'wp-content/themes/' in info:
                     size = len('wp-content/themes/')
-                    info = "WP theme " + info[size::]
+                    info = info[size::]
 
-                name = re.search(r'WP \w+ (\w|-|\d)+\/', info).group()
+                name = re.search(r'(\w|-|\d)+\/', info).group()
                 name = name[:-1:]
-                version = re.search(r'ver=\d+\.\d+(\.\d+)?', info).group()
+                version = re.search(r'\d+\.\d+(\.\d+)?', info).group()
                 
-                result.add(f'{name} {version}')
+                result.add((name, version))
         
         soup = BeautifulSoup(response.content, "html.parser")
 
@@ -63,7 +65,6 @@ def crawl(site, html_regexes, url_regexes):
         urls = re.findall(pattern, html_hrefs)
 
         exclude_filetype = ['.js', 'css', 'php', 'jpg', 'xml']
-        exclude_first_char = ['#', ':', "$", "@"]
         
         for url in urls:
             if url[0] == 'h' or url[0] == '/':
@@ -98,4 +99,4 @@ def crawl_website():
         data['subdomains'] = tmp_subdomain_data
         json.dump(data, file, indent=4)
 
-crawl_website()
+# crawl_website()

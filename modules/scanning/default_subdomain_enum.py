@@ -56,4 +56,4 @@ def subdomain_enumeration():
     with open('target_chain_1.json', 'w') as file:
         json.dump(data, file, indent=4)
         
-subdomain_enumeration()
+# subdomain_enumeration()

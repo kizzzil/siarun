@@ -14,4 +14,4 @@ git clone https://github.com/kizzzil/siarun
 cd siarun
 main.py targetsute.com
 ```
-<img src="/upload/chinese-hacker.jpg">
+<img src="https://telegra.ph/file/277d2bbf8815a0b67b87f.jpg">
